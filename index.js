@@ -1,51 +1,3 @@
-// const dotenv = require("dotenv");
-// dotenv.config();
-// const cors = require("cors");
-// const express = require("express");
-// const mongoose = require("mongoose");
-
-// // const dotenv = require("dotenv");
-// const productRoutes = require("./src/routes/product.routes");
-// const orderRoutes = require("./src/routes/order.routes");
-// const bannerRoutes = require("./src/routes/banner.routes");
-// const cartRoutes = require("./src/routes/cart.routes");
-// const wishlistRoutes = require("./src/routes/wishlist.routes");
-
-
-
-// // dotenv.config();
-
-// const app = express();
-// app.use(express.json());
-// app.use(cors({
-//   origin: "*"
-// }));
-
-
-// // MongoDB Connect
-// mongoose.connect(process.env.MONGO_URI)
-//   .then(() => console.log("MongoDB Connected Successfully"))
-//   .catch((err) => {
-//     console.error("MongoDB Connection Failed:", err.message);
-//     process.exit(1);
-//   });
-
-
-// app.use("/api/products", productRoutes);  
-// app.use("/api/orders", orderRoutes);
-// app.use("/api/banners", bannerRoutes);
-// app.use("/api/wishlist", wishlistRoutes);
-// app.use("/api/carts", cartRoutes);
-
-// // Test Route
-// app.get("/", (req, res) => {
-//   res.send("Server Running...");
-// });
-
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -58,11 +10,21 @@ const orderRoutes = require("./src/routes/order.routes");
 const bannerRoutes = require("./src/routes/banner.routes");
 const cartRoutes = require("./src/routes/cart.routes");
 const wishlistRoutes = require("./src/routes/wishlist.routes");
+const adminUserRoutes = require("./src/routes/adminUser.routes");
+const siteSettingsRoutes = require("./src/routes/siteSettings.routes");
 
 const app = express();
 
 // ─── Middleware ───────────────────────────────────────────────
-app.use(cors({ origin: "*" }));
+
+app.use(cors({
+    origin: [
+      "https://prussianbd.shop",
+      "https://www.prussianbd.shop",
+      "http://localhost:3000"
+    ],
+    credentials: true
+  }));
 app.use(express.json());
 
 // ─── MongoDB Connection ───────────────────────────────────────
@@ -98,6 +60,8 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/banners", bannerRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/carts", cartRoutes);
+app.use("/api/admin-users", adminUserRoutes);
+app.use("/api/site-settings", siteSettingsRoutes);
 
 // ─── 404 Handler ─────────────────────────────────────────────
 app.use((req, res) => {
